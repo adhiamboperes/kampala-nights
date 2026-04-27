@@ -185,6 +185,38 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
+class _CategoryChips extends StatelessWidget {
+  const _CategoryChips({
+    required this.categories,
+    required this.selectedCategory,
+    required this.onCategorySelected,
+  });
+
+  final List<String> categories;
+  final String selectedCategory;
+  final ValueChanged<String> onCategorySelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: categories.map((String category) {
+          final bool isSelected = category == selectedCategory;
+          return Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: ChoiceChip(
+              label: Text(category),
+              selected: isSelected,
+              onSelected: (_) => onCategorySelected(category),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
 class _FeaturedCarousel extends StatelessWidget {
   const _FeaturedCarousel({required this.featuredEvents});
 
@@ -424,6 +456,169 @@ class EventDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BookingSuccessScreen extends StatelessWidget {
+  const BookingSuccessScreen({super.key, required this.event});
+
+  final Event event;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Booking Confirmed')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircleAvatar(
+                radius: 44,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: Icon(
+                  Icons.check_rounded,
+                  size: 52,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Booking Successful!',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Your spot for ${event.title} is reserved.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white70,
+                    ),
+              ),
+              const SizedBox(height: 24),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.event_available_outlined),
+                  title: Text(event.title),
+                  subtitle: Text('${event.venue} • ${event.date}'),
+                  trailing: Text(event.price),
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).popUntil((Route<dynamic> route) {
+                      return route.isFirst;
+                    });
+                  },
+                  child: const Text('Back to Events'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BookingProcessingScreen extends StatefulWidget {
+  const BookingProcessingScreen({super.key, required this.event});
+
+  final Event event;
+
+  @override
+  State<BookingProcessingScreen> createState() => _BookingProcessingScreenState();
+}
+
+class _BookingProcessingScreenState extends State<BookingProcessingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _simulateBooking();
+  }
+
+  Future<void> _simulateBooking() async {
+    await Future<void>.delayed(const Duration(milliseconds: 1600));
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (_) => BookingSuccessScreen(event: widget.event),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Processing Booking')),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const SizedBox(
+                width: 56,
+                height: 56,
+                child: CircularProgressIndicator(strokeWidth: 5),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Booking ${widget.event.title}...',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Securing your ticket',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white70,
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({required this.title, required this.subtitle});
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          subtitle,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.white60,
+              ),
+        ),
+      ],
     );
   }
 }
