@@ -4,6 +4,10 @@ A Flutter demo nightlife event discovery application inspired by platforms like 
 
 Built to showcase a clean mobile UI, booking flow, and scalable architecture for Android and iOS.
 
+|||||
+|---|---|---|---|
+|<img width="1080" height="2220" alt="Screenshot_1777294078" src="https://github.com/user-attachments/assets/f46bb62a-708a-4da3-adf6-ea6bd27413e0" />|<img width="1080" height="2220" alt="Screenshot_1777294088" src="https://github.com/user-attachments/assets/70bbba25-aab3-44ef-8a8d-fe38776abfbe" />| <img width="1080" height="2220" alt="Screenshot_1777294096" src="https://github.com/user-attachments/assets/910b50bf-ea3b-4918-a7df-161e8b335b5f" />|<img width="1080" height="2220" alt="Screenshot_1777294102" src="https://github.com/user-attachments/assets/cb8fc849-0248-45c2-a72b-9ca94aeb0ede" />|
+
 ---
 
 # Overview
@@ -195,4 +199,7 @@ The project uses `cached_network_image` config which creates faster repeat loads
 **Future Work**
 - Implement paginated loading
 - Store last fetched events locally
+
+# Architecture
+Future work can be done to refactor the code so that each screen and class has a seperate file.
 
