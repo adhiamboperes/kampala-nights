@@ -1,8 +1,6 @@
 # Kampala Nights – Event Listing Demo App
 
-A Flutter demo nightlife event discovery application inspired by platforms like Kampala Nights.
-
-Built to showcase a clean mobile UI, booking flow, and scalable architecture for Android and iOS.
+A Flutter demo nightlife event discovery application.
 
 |||||
 |---|---|---|---|
