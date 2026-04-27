@@ -166,3 +166,22 @@ class _EventsHomeScreenState extends State<EventsHomeScreen> {
     );
   }
 }
+
+class _SearchBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+        hintText: 'Search events, venues, DJs...',
+        prefixIcon: const Icon(Icons.search),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.06),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+}
+
