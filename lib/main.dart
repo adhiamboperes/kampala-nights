@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 void main() {
   runApp(const KampalaNightsApp());
@@ -236,7 +237,7 @@ class _FeaturedCarousel extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: NetworkImage(event.imageUrl),
+                image: CachedNetworkImageProvider(event.imageUrl),
                 fit: BoxFit.cover,
               ),
             ),
@@ -304,11 +305,26 @@ class _EventCard extends StatelessWidget {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  event.imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: event.imageUrl,
                   width: 96,
                   height: 96,
                   fit: BoxFit.cover,
+                  placeholder: (BuildContext context, String url) {
+                    return const Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    );
+                  },
+                  errorWidget: (BuildContext context, String url, Object error) {
+                    return const ColoredBox(
+                      color: Color(0xFF1A1F29),
+                      child: Icon(Icons.broken_image_outlined),
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 12),
@@ -384,7 +400,22 @@ class EventDetailsScreen extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
-                  Image.network(event.imageUrl, fit: BoxFit.cover),
+                  CachedNetworkImage(
+                    imageUrl: event.imageUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (BuildContext context, String url) {
+                      return const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      );
+                    },
+                    errorWidget:
+                        (BuildContext context, String url, Object error) {
+                      return const ColoredBox(
+                        color: Color(0xFF1A1F29),
+                        child: Icon(Icons.broken_image_outlined, size: 36),
+                      );
+                    },
+                  ),
                   DecoratedBox(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
